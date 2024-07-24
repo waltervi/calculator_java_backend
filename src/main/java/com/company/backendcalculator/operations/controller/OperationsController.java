@@ -5,15 +5,13 @@ import com.company.backendcalculator.operations.service.OperationService;
 import com.company.backendcalculator.operations.dto.OperationEnum;
 import com.company.backendcalculator.operations.dto.OperationRequest;
 import com.company.backendcalculator.common.exceptions.Http400Exception;
-import com.company.backendcalculator.authorization.service.TokenService;
+import com.company.backendcalculator.common.service.TokenService;
 import com.company.backendcalculator.common.dto.UserData;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin( originPatterns = "*,", allowCredentials = "true")
 @RestController
 public class OperationsController {
 
@@ -26,7 +24,7 @@ public class OperationsController {
     @PostMapping(value = "/v1/operations")
     public OperationResponse executeOperation(
             @Valid @RequestBody OperationRequest body,
-            @CookieValue(name = "token") String token) {
+            @RequestHeader(value = "token") String token) {
 
         UserData userData = tokenService.decryptAndValidateToken(token);
         //begin validations

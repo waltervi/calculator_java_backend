@@ -33,14 +33,12 @@ public class OperationsAPI {
 
         String req = objectMapperService.getObjectMapper().writeValueAsString(request);
 
-        Cookie tokenCookie = new Cookie("token", token);
-
         MvcResult result = mockMvc.perform(
                 post("/v1/operations")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(req.getBytes())
-                .cookie(tokenCookie)
+                .header("token", token)
         ).andReturn();
 
         assertEquals(result.getResponse().getStatus(),status);

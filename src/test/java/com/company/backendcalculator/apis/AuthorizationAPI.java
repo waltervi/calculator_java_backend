@@ -1,7 +1,9 @@
 package com.company.backendcalculator.apis;
 
 import com.company.backendcalculator.authorization.dto.RegisterRequest;
+import com.company.backendcalculator.authorization.dto.RegisterResponse;
 import com.company.backendcalculator.common.service.ObjectMapperService;
+import com.company.backendcalculator.operations.dto.OperationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -25,7 +27,7 @@ public class AuthorizationAPI {
     @Autowired
     private ObjectMapperService objectMapperService;
 
-    public MockHttpServletResponse v1_auth_register_POST(String userName, String password, int status) throws Exception {
+    public RegisterResponse v1_auth_register_POST(String userName, String password, int status) throws Exception {
         RegisterRequest request = new RegisterRequest();
         request.setPassword(password);
         request.setUsername(userName);
@@ -39,10 +41,13 @@ public class AuthorizationAPI {
         ).andReturn();
         assertEquals(result.getResponse().getStatus(),status);
 
-        if( status == 200){
-
+        RegisterResponse registerResponse = null;
+        if ( status == 200){
+            registerResponse = objectMapperService.getObjectMapper().readValue(result.getResponse().getContentAsString(),RegisterResponse.class);
+            return registerResponse;
         }
-        return result.getResponse();
+
+        return registerResponse;
     }
 
     public String v1_auth_login_POST(String userName, String password, int status) throws Exception {
@@ -58,10 +63,14 @@ public class AuthorizationAPI {
                 .content(req.getBytes())).andReturn();
         assertEquals(result.getResponse().getStatus(),status);
 
-        String token = result.getResponse().getCookie("token").getValue();
-        assertTrue(token != null);
 
-        return token;
+        RegisterResponse registerResponse = null;
+        if ( status == 200){
+            registerResponse = objectMapperService.getObjectMapper().readValue(result.getResponse().getContentAsString(),RegisterResponse.class);
+            return registerResponse.getToken();
+        }
+
+        return "";
     }
 
 }

@@ -3,6 +3,7 @@ package com.company.backendcalculator;
 import com.company.backendcalculator.apis.AuthorizationAPI;
 import com.company.backendcalculator.apis.OperationsAPI;
 import com.company.backendcalculator.apis.RecordsAPI;
+import com.company.backendcalculator.authorization.dto.RegisterResponse;
 import com.company.backendcalculator.authorization.repository.UserRepository;
 import com.company.backendcalculator.operations.dto.OperationEnum;
 import com.company.backendcalculator.operations.dto.OperationResponse;
@@ -70,9 +71,9 @@ class CalculatorBackendApplicationTests {
 	void fullHappyPathTests() throws Exception {
 		recordRepository.deleteAll();
 
-		MockHttpServletResponse r1 = authorizationAPI.v1_auth_register_POST("john1","pass1",200);
+		RegisterResponse r1 = authorizationAPI.v1_auth_register_POST("john1","pass1",200);
 
-		String token = r1.getCookie("token").getValue();
+		String token = r1.getToken();
 		assertTrue(token != null);
 
 		token = authorizationAPI.v1_auth_login_POST("john1","pass1",200);
@@ -80,32 +81,32 @@ class CalculatorBackendApplicationTests {
 		OperationResponse resp;
 		resp = operationsAPI.v1_operations_POST(OperationEnum.addition.name(),"1", "2", token, 200);
 		assertEquals( Double.parseDouble(resp.getResult()) ,3.0);
-		assertEquals(resp.getBalance(),999.0);
+		assertEquals(resp.getBalance(),49.0);
 
 		resp = operationsAPI.v1_operations_POST(OperationEnum.substraction.name(),"2", "2", token, 200);
 		assertEquals(Double.parseDouble(resp.getResult()),0);
-		assertEquals(resp.getBalance(),997.0);
+		assertEquals(resp.getBalance(),47.0);
 
 		resp = operationsAPI.v1_operations_POST(OperationEnum.multiplication.name(),"2", "4", token, 200);
 		assertEquals(Double.parseDouble(resp.getResult()),8.0);
-		assertEquals(resp.getBalance(),994.0);
+		assertEquals(resp.getBalance(),44.0);
 
 		resp = operationsAPI.v1_operations_POST(OperationEnum.division.name(),"8", "8", token, 200);
 		assertEquals(Double.parseDouble(resp.getResult()),1.0);
-		assertEquals(resp.getBalance(),990.0);
+		assertEquals(resp.getBalance(),40.0);
 
 
 		resp = operationsAPI.v1_operations_POST(OperationEnum.square_root.name(),"4", null, token, 200);
 		assertEquals(Double.parseDouble(resp.getResult()),2.0);
-		assertEquals(resp.getBalance(),985.0);
+		assertEquals(resp.getBalance(),35.0);
 
 		resp = operationsAPI.v1_operations_POST(OperationEnum.random_string.name(),null, null, token, 200);
 		assertTrue(resp.getResult() != null);
-		assertEquals(resp.getBalance(),979.0);
+		assertEquals(resp.getBalance(),29.0);
 
 		resp = operationsAPI.v1_operations_POST(OperationEnum.random_string.name(),null, null, token, 200);
 		assertTrue(resp.getResult() != null);
-		assertEquals(resp.getBalance(),973.0);
+		assertEquals(resp.getBalance(),23.0);
 
 		RecordListResponse r2 = recordsAPI.v1_records_GET(token,200);
 		assertEquals(r2.getRecords().size(),7);

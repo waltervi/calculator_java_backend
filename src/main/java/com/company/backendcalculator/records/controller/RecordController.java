@@ -1,6 +1,6 @@
 package com.company.backendcalculator.records.controller;
 
-import com.company.backendcalculator.authorization.service.TokenService;
+import com.company.backendcalculator.common.service.TokenService;
 import com.company.backendcalculator.common.dto.UserData;
 import com.company.backendcalculator.records.dto.RecordListResponse;
 import com.company.backendcalculator.records.entities.Record;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin( originPatterns = "*,", allowCredentials = "true")
 @RestController
 public class RecordController {
 
@@ -27,7 +28,7 @@ public class RecordController {
     public ResponseEntity<RecordListResponse> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "100") int size,
-            @CookieValue(name = "token") String token) {
+            @RequestHeader(value = "token") String token) {
 
         UserData userData = tokenService.decryptAndValidateToken(token);
 
@@ -39,7 +40,8 @@ public class RecordController {
     }
 
     @DeleteMapping(value = "/v1/records/{id}")
-    public void delete(@PathVariable(value = "id") Long id,@CookieValue(name = "token") String token) {
+    public void delete(@PathVariable(value = "id") Long id,
+                       @RequestHeader(value = "token") String token) {
 
         UserData userData = tokenService.decryptAndValidateToken(token);
 

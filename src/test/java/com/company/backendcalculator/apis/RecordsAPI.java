@@ -25,12 +25,11 @@ public class RecordsAPI {
     }
 
     public RecordListResponse v1_records_GET(String token, int status) throws Exception {
-        Cookie tokenCookie = new Cookie("token", token);
 
         MvcResult result = mockMvc.perform(
                 get("/v1/records")
                 .accept(MediaType.APPLICATION_JSON)
-                .cookie(tokenCookie)
+                        .header("token", token)
         ).andReturn();
 
         assertEquals(result.getResponse().getStatus(),status);
@@ -43,13 +42,12 @@ public class RecordsAPI {
     }
 
     public void v1_records_id_DELETE(Long id, String token, int status) throws Exception {
-        Cookie tokenCookie = new Cookie("token", token);
 
         MvcResult result = mockMvc.perform(
                 delete("/v1/records/" + id)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .cookie(tokenCookie)
+                        .header("token", token)
         ).andReturn();
 
         assertEquals(result.getResponse().getStatus(),status);
