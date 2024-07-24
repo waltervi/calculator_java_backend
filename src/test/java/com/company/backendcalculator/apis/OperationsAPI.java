@@ -3,7 +3,6 @@ package com.company.backendcalculator.apis;
 import com.company.backendcalculator.common.service.ObjectMapperService;
 import com.company.backendcalculator.operations.dto.OperationRequest;
 import com.company.backendcalculator.operations.dto.OperationResponse;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,8 +28,8 @@ public class OperationsAPI {
     public OperationResponse v1_operations_POST(String op, String op1, String op2, String token, int status) throws Exception {
         OperationRequest request = new OperationRequest();
         request.setOperation(op);
-        request.setOperandOne(op1);
-        request.setOperandTwo(op2);
+        request.setOperand1(op1);
+        request.setOperand2(op2);
 
         String req = objectMapperService.getObjectMapper().writeValueAsString(request);
 

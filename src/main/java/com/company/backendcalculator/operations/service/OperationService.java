@@ -15,14 +15,20 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.RoundingMode;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.DecimalFormat;
 import java.time.ZonedDateTime;
 
 @Service
 public class OperationService {
+
+    private DecimalFormat decimalFormat = new DecimalFormat("#.#####");
+
+
     private static final String STRING_PROVIDER_URL = "https://www.random.org/strings/?num=1&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new";
 
     private static class OperationCheckDto {
@@ -58,9 +64,11 @@ public class OperationService {
 
         Double result = operandOne + operandTwo;
 
-        Double balance = saveAndGetBalance(userData, dto, result.toString());
+        String strResult = asIntegerIfPossible(result);
 
-        return new OperationResponse(result.toString(),balance);
+        Double balance = saveAndGetBalance(userData, dto, strResult);
+
+        return new OperationResponse(strResult,balance);
     }
 
     @Transactional
@@ -69,9 +77,11 @@ public class OperationService {
 
         Double result = operandOne - operandTwo;
 
-        Double balance = saveAndGetBalance(userData, dto, result.toString());
+        String strResult = asIntegerIfPossible(result);
 
-        return new OperationResponse(result.toString(),balance);
+        Double balance = saveAndGetBalance(userData, dto, strResult);
+
+        return new OperationResponse(strResult,balance);
     }
 
     @Transactional
@@ -80,9 +90,11 @@ public class OperationService {
 
         Double result = operandOne * operandTwo;
 
-        Double balance = saveAndGetBalance(userData, dto, result.toString());
+        String strResult = asIntegerIfPossible(result);
 
-        return new OperationResponse(result.toString(),balance);
+        Double balance = saveAndGetBalance(userData, dto, strResult);
+
+        return new OperationResponse(strResult,balance);
     }
 
     @Transactional
@@ -91,9 +103,11 @@ public class OperationService {
 
         Double result = operandOne / operandTwo;
 
-        Double balance = saveAndGetBalance(userData, dto, result.toString());
+        String strResult = asIntegerIfPossible(result);
 
-        return new OperationResponse(result.toString(),balance);
+        Double balance = saveAndGetBalance(userData, dto, strResult);
+
+        return new OperationResponse(strResult,balance);
     }
 
     @Transactional
@@ -102,9 +116,11 @@ public class OperationService {
 
         Double result = Math.sqrt(operandOne);
 
-        Double balance = saveAndGetBalance(userData, dto, result.toString());
+        String strResult = asIntegerIfPossible(result);
 
-        return new OperationResponse(result.toString(),balance);
+        Double balance = saveAndGetBalance(userData, dto, strResult);
+
+        return new OperationResponse(strResult,balance);
     }
 
     @Transactional
@@ -195,4 +211,11 @@ public class OperationService {
         return result;
     }
 
+     private String asIntegerIfPossible(Double result){
+         String strResult = decimalFormat.format(result);
+         if( result.intValue() == result.doubleValue()){
+             strResult = String.valueOf(result.intValue());
+         }
+         return  strResult;
+     }
 }

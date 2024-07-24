@@ -39,7 +39,7 @@ public class OperationsController {
             case OperationEnum.multiplication:
             case OperationEnum.division:
             case OperationEnum.square_root:
-                operandOne = checkValidNumericOperand(body.getOperandOne());
+                operandOne = checkValidNumericOperand(body.getOperand1());
         }
 
         Double operandTwo = null;
@@ -48,7 +48,7 @@ public class OperationsController {
             case OperationEnum.substraction:
             case OperationEnum.multiplication:
             case OperationEnum.division:
-                operandTwo = checkValidNumericOperand(body.getOperandTwo());
+                operandTwo = checkValidNumericOperand(body.getOperand2());
         }
         //end validations
 

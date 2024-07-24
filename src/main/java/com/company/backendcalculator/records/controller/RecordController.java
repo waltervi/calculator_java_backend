@@ -26,7 +26,7 @@ public class RecordController {
     @GetMapping(value = "/v1/records")
     public ResponseEntity<RecordListResponse> findAll(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "100") int size,
             @CookieValue(name = "token") String token) {
 
         UserData userData = tokenService.decryptAndValidateToken(token);

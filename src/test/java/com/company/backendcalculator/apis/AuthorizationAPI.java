@@ -2,7 +2,6 @@ package com.company.backendcalculator.apis;
 
 import com.company.backendcalculator.authorization.dto.RegisterRequest;
 import com.company.backendcalculator.common.service.ObjectMapperService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -29,7 +28,7 @@ public class AuthorizationAPI {
     public MockHttpServletResponse v1_auth_register_POST(String userName, String password, int status) throws Exception {
         RegisterRequest request = new RegisterRequest();
         request.setPassword(password);
-        request.setUserName(userName);
+        request.setUsername(userName);
 
         String req = objectMapperService.getObjectMapper().writeValueAsString(request);
 
@@ -39,13 +38,17 @@ public class AuthorizationAPI {
                 .content(req.getBytes())
         ).andReturn();
         assertEquals(result.getResponse().getStatus(),status);
+
+        if( status == 200){
+
+        }
         return result.getResponse();
     }
 
     public String v1_auth_login_POST(String userName, String password, int status) throws Exception {
         RegisterRequest request = new RegisterRequest();
         request.setPassword(password);
-        request.setUserName(userName);
+        request.setUsername(userName);
 
         String req = objectMapperService.getObjectMapper().writeValueAsString(request);
 

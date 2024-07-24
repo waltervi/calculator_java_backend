@@ -11,10 +11,10 @@ public class OperationRequest {
     private String operation;
 
     @Size(max = 20, message = "invalid operandOne value")
-    private String operandOne;
+    private String operand1;
 
     @Size(max = 20, message = "invalid operandTwo value")
-    private String operandTwo;
+    private String operand2;
 
     public String getOperation() {
         return operation;
@@ -24,19 +24,19 @@ public class OperationRequest {
         this.operation = operation;
     }
 
-    public String getOperandOne() {
-        return operandOne;
+    public String getOperand1() {
+        return operand1;
     }
 
-    public void setOperandOne(String operandOne) {
-        this.operandOne = operandOne;
+    public void setOperand1(String operand1) {
+        this.operand1 = operand1;
     }
 
-    public String getOperandTwo() {
-        return operandTwo;
+    public String getOperand2() {
+        return operand2;
     }
 
-    public void setOperandTwo(String operandTwo) {
-        this.operandTwo = operandTwo;
+    public void setOperand2(String operand2) {
+        this.operand2 = operand2;
     }
 }

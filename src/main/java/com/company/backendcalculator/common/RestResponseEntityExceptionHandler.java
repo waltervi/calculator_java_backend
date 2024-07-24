@@ -6,6 +6,7 @@ import com.company.backendcalculator.common.exceptions.Http500Exception;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -13,10 +14,10 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler {
 
-    @ExceptionHandler({ Http400Exception.class, IllegalArgumentException.class })
+    @ExceptionHandler({ Http400Exception.class, IllegalArgumentException.class, MethodArgumentNotValidException.class})
     public ResponseEntity<Object> handleHttp400Exception(Exception ex, WebRequest request) {
         return new ResponseEntity<Object>(
-                "bad request", new HttpHeaders(), HttpStatus.BAD_REQUEST);
+                ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
 
@@ -30,6 +31,6 @@ public class RestResponseEntityExceptionHandler {
     @ExceptionHandler({ Http500Exception.class, Exception.class })
     public ResponseEntity<Object> handleHttp500Exception(Exception ex, WebRequest request) {
         return new ResponseEntity<Object>(
-                "internal server error", new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+                ex.getMessage(), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

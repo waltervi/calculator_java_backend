@@ -32,7 +32,7 @@ public class RegistrationService {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    public String registerUser(String userName, String password){
+    public User registerUser(String userName, String password){
         User user = new User();
         user.setUserName(userName);
         user.setPassword(bCryptPasswordEncoder.encode(password));
@@ -41,26 +41,30 @@ public class RegistrationService {
 
         userRepository.save(user);
 
-        String token = generateToken(user);
-        return token;
+        return user;
     }
 
-    public String login(String userName, String password){
+    public User login(String userName, String password){
         User user = userRepository.findByUserName(userName);
         if ( user == null){
             throw new Http401Exception();
         }
 
+        String justEncoded= bCryptPasswordEncoder.encode(password);
+        String fromDb = user.getPassword();
+
+        System.out.println("justEncoded.equals(fromDb): " + justEncoded.equals(fromDb));
+//$2a$10$8veebQJofxK2DDC94R9VbuGqO9YB/tBa3bYGrM0AYayhg6g1Hnoni
+//$2a$10$9R7Y5mSLsKKr9zqtv6DKU.mIHUEPoTee4Vr5xOHwGZxkoIWZqVgHe
         boolean passwordMatches = bCryptPasswordEncoder.matches(password,user.getPassword());
         if(!passwordMatches){
             throw new Http401Exception();
         }
 
-        String token = generateToken(user);
-        return token;
+        return user;
     }
 
-    private String generateToken(User user ){
+    public String generateToken(User user ){
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(defaultDurationInDays);
         long millis = localDateTime.toInstant(ZoneOffset.UTC).toEpochMilli();
 
