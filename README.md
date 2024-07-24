@@ -17,7 +17,7 @@ Inside project directory run:
 ### How to see data saved in mysql database
 All required data to login inside the file -> docker-compose.yml
 
-YOU MUST MANUALLY CREATED THE DATABASE NAMED -> calculator.
+YOU MUST MANUALLY CREATED A DATABASE NAMED -> calculator.
 
 By either creating it with a took or running the script in ./db_scritps/create_database.sql
 
