@@ -1,8 +1,7 @@
 package com.company.backendcalculator.apis;
 
 import com.company.backendcalculator.common.service.ObjectMapperService;
-import com.company.backendcalculator.records.dto.RecordListResponse;
-import jakarta.servlet.http.Cookie;
+import com.company.backendcalculator.records_microservice.dto.RecordListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;

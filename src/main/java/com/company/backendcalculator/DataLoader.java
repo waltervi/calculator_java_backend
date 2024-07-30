@@ -1,8 +1,8 @@
 package com.company.backendcalculator;
 
-import com.company.backendcalculator.operations.dto.OperationEnum;
-import com.company.backendcalculator.operations.entities.Operation;
-import com.company.backendcalculator.operations.repository.OperationRepository;
+import com.company.backendcalculator.operations_microservice.dto.OperationEnum;
+import com.company.backendcalculator.operations_microservice.entities.Operation;
+import com.company.backendcalculator.operations_microservice.repository.OperationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -37,32 +37,32 @@ public class DataLoader implements ApplicationRunner {
 
         Operation op = new Operation();
         op.setCost(costAddition);
-        op.setType(OperationEnum.addition.toString());
+        op.setType(OperationEnum.ADDITION.toString());
         operationRepository.save(op);
 
         op = new Operation();
         op.setCost(costSubstraction);
-        op.setType(OperationEnum.substraction.toString());
+        op.setType(OperationEnum.SUBSTRACTION.toString());
         operationRepository.save(op);
 
         op = new Operation();
         op.setCost(costMultiplication);
-        op.setType(OperationEnum.multiplication.toString());
+        op.setType(OperationEnum.MULTIPLICATION.toString());
         operationRepository.save(op);
 
         op = new Operation();
         op.setCost(costDivision);
-        op.setType(OperationEnum.division.toString());
+        op.setType(OperationEnum.DIVISION.toString());
         operationRepository.save(op);
 
         op = new Operation();
         op.setCost(costSquareRoot);
-        op.setType(OperationEnum.square_root.toString());
+        op.setType(OperationEnum.SQUARE_ROOT.toString());
         operationRepository.save(op);
 
         op = new Operation();
         op.setCost(costRandomString);
-        op.setType(OperationEnum.random_string.toString());
+        op.setType(OperationEnum.RANDOM_STRING.toString());
         operationRepository.save(op);
 
     }

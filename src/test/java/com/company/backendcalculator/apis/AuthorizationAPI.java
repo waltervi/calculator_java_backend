@@ -1,12 +1,10 @@
 package com.company.backendcalculator.apis;
 
-import com.company.backendcalculator.authorization.dto.RegisterRequest;
-import com.company.backendcalculator.authorization.dto.RegisterResponse;
+import com.company.backendcalculator.authorization_microservice.dto.RegisterRequest;
+import com.company.backendcalculator.authorization_microservice.dto.RegisterResponse;
 import com.company.backendcalculator.common.service.ObjectMapperService;
-import com.company.backendcalculator.operations.dto.OperationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;

@@ -1,9 +1,8 @@
 package com.company.backendcalculator.apis;
 
 import com.company.backendcalculator.common.service.ObjectMapperService;
-import com.company.backendcalculator.operations.dto.OperationRequest;
-import com.company.backendcalculator.operations.dto.OperationResponse;
-import jakarta.servlet.http.Cookie;
+import com.company.backendcalculator.operations_microservice.dto.OperationRequest;
+import com.company.backendcalculator.operations_microservice.dto.OperationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -43,11 +42,14 @@ public class OperationsAPI {
 
         assertEquals(result.getResponse().getStatus(),status);
 
-        if ( status == 200){
-            OperationResponse operationResponse = objectMapperService.getObjectMapper().readValue(result.getResponse().getContentAsString(),OperationResponse.class);
-            return operationResponse;
+        OperationResponse operationResponse = null;
+        try{
+            operationResponse = objectMapperService.getObjectMapper().readValue(result.getResponse().getContentAsString(),OperationResponse.class);
         }
-        return  null;
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return  operationResponse;
     }
 
 
